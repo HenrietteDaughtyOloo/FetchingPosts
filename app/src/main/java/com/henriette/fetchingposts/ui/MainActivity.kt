@@ -11,7 +11,7 @@ import com.henriette.fetchingposts.R
 import com.henriette.fetchingposts.viewmodel.PostsViewModel
 
 class MainActivity : AppCompatActivity() {
-    lateinit var  binding: MainActivity
+    lateinit var binding: ActivityMainBinding
     val contactViewModel:PostsViewModel by viewModels()
     lateinit var btnAddContact: Button
 

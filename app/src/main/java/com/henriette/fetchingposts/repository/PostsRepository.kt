@@ -3,20 +3,21 @@ package com.henriette.fetchingposts.repository
 import androidx.lifecycle.LiveData
 import com.henriette.fetchingposts.database.PostsDb
 import com.henriette.fetchingposts.PostsApp
+import com.henriette.fetchingposts.api.ApiClient
+import com.henriette.fetchingposts.api.ApiInterface
 import com.henriette.fetchingposts.model.PostsData
+import com.henriette.fetchingposts.model.PostsResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.Response
 
 class PostsRepository {
+    val apiClient= ApiClient.buildApiClient(ApiInterface::class.java)
 
-    val database= PostsDb.getDatabase(PostsApp.appContext)
-
-    suspend fun getPost(contacts:PostsData){
-        withContext(Dispatchers.IO){
-            database.getPostsDao().getAllPosts()
+    suspend fun getPost(): Response<PostsResponse>{
+        return withContext(Dispatchers.IO){
+        apiClient.getPosts()
         }
     }
-    fun getAllPosts(): LiveData<List<PostsData>> {
-        return  database.getPostsDao().getAllPosts()
-    }
+
 }
