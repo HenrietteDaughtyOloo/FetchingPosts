@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
                 binding.rvPosts.layoutManager = LinearLayoutManager(this@MainActivity)
+                binding.rvPosts.adapter=PostsRvAdapter(postsList)
             })
         postsViewModel.errorLiveData.observe(this,Observer{error->
             Toast.makeText(baseContext,error, Toast.LENGTH_LONG).show()

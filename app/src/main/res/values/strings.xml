@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FetchingPosts</string>
+    <string name="all_posts">ALL POSTS</string>
 </resources>
