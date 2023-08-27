@@ -1,43 +1,40 @@
 package com.henriette.fetchingposts.ui
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.henriette.fetchingposts.R
+import com.henriette.fetchingposts.databinding.ActivityMainBinding
 import com.henriette.fetchingposts.viewmodel.PostsViewModel
 
 class MainActivity : AppCompatActivity() {
+    val postsViewModel:PostsViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
-    val contactViewModel:PostsViewModel by viewModels()
-    lateinit var btnAddContact: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=MainActivity.inflate(layoutInflater)
+        binding=ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        binding.fabNew.setOnClickListener{
-            val intent= Intent(this, newPost::class.java)
-            startActivity(intent)
-        }
+
+
     }
-
-
     override fun onResume() {
         super.onResume()
-        PostsViewModel.getPosts().observe(this, Observer { postsList-> displayPosts(postList) })
-        binding.fabNew.setOnClickListener{
-            startActivity(Intent(this,newPost::class.java))
-        }
-    }
-    fun displayPosts(contactList:List<PostsData>){
-        val postAdapter= PostsAdapter(postList,this)
-        binding.rvPosts.layoutManager= LinearLayoutManager(this)
-        binding.rvPosts.adapter=postAdapter
+        postsViewModel.getAllPosts()
+            postsViewModel.postsLiveData.observe(this, Observer { postsList ->
+                Toast.makeText(
+                    baseContext,
+                    "the ${postsList?.size} posts have been fetched",
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.rvPosts.layoutManager = LinearLayoutManager(this@MainActivity)
+            })
+        postsViewModel.errorLiveData.observe(this,Observer{error->
+            Toast.makeText(baseContext,error, Toast.LENGTH_LONG).show()
+        })
     }
 }

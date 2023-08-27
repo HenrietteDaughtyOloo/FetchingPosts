@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
 }
 
 android {
@@ -35,7 +34,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures{
-        viewBinding;true
+        viewBinding= true
     }
 }
 
@@ -53,7 +52,6 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0-alpha01")
     implementation ("androidx.activity:activity-ktx:1.7.2")
     implementation ("androidx.room:room-runtime:2.5.2")
-    kapt; "androidx.room:room-compiler:2.3.0"
 
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
